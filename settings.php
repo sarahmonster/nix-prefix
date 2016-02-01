@@ -13,13 +13,13 @@
  * Add a menu item for our settings page under the main settings tab.
  */
 function nix_prefix_add_menu_item() {
- 	add_options_page(
- 		esc_attr__( 'Nix Prefix Settings', 'nix_prefix' ),
- 		esc_html__( 'Nix Prefix', 'nix_prefix' ),
- 		'manage_options',
- 		'nix_prefix',
- 		'nix_prefix_options_page'
- 	);
+	add_options_page(
+		esc_attr__( 'Nix Prefix Settings', 'nix_prefix' ),
+		esc_html__( 'Nix Prefix', 'nix_prefix' ),
+		'manage_options',
+		'nix_prefix',
+		'nix_prefix_options_page'
+	);
 }
 add_action( 'admin_menu', 'nix_prefix_add_menu_item' );
 
@@ -52,30 +52,38 @@ function nix_prefix_settings_init() {
 
 	register_setting( 'nix_prefix_settings', 'nix_prefix_settings' );
 
-	// General settings
-	add_settings_section(
+		// Register a section, mostly because it doesn't seem possible not to
+		add_settings_section(
 		'nix_prefix_general_settings_section',
 		esc_html__( 'General Settings', 'nix_prefix' ),
 		'',
 		'nix_prefix_settings'
 	);
 
+		// Register various options
 	add_settings_field(
 		'nix_prefix_wrap_in_span',
-		esc_html__( 'Wrap prefix in a span.', 'nix_prefix' ),
+		esc_html__( 'Prefix behaviour', 'nix_prefix' ),
 		'nix_prefix_wrap_in_span',
 		'nix_prefix_settings',
 		'nix_prefix_general_settings_section'
 	);
 
 	add_settings_field(
-		'nix_prefix_archive_page',
-		esc_html__( 'Archive pages affected', 'nix_prefix' ),
+		'nix_prefix_archive_category',
+		esc_html__( 'Category archives', 'nix_prefix' ),
 		'nix_prefix_archive_pages_render',
 		'nix_prefix_settings',
 		'nix_prefix_general_settings_section'
 	);
 
+	add_settings_field(
+		'nix_prefix_archive_tag',
+		esc_html__( 'Tag archives', 'nix_prefix' ),
+		'nix_prefix_archive_pages_render',
+		'nix_prefix_settings',
+		'nix_prefix_general_settings_section'
+	);
 }
 add_action( 'admin_init', 'nix_prefix_settings_init' );
 
@@ -84,20 +92,21 @@ add_action( 'admin_init', 'nix_prefix_settings_init' );
  */
 function nix_prefix_wrap_in_span() {
 	$options = get_option( 'nix_prefix_settings' );
+		if ( ! isset( $options['nix_prefix_wrap_in_span'] ) ) :
+			$options['nix_prefix_wrap_in_span'] = 0;
+		endif;
 	?>
 	<input type='checkbox' name='nix_prefix_settings[nix_prefix_wrap_in_span]' <?php checked( $options['nix_prefix_wrap_in_span'], 1 ); ?> value='1'>
-	<?php
+	<label for="nix_prefix_settings[nix_prefix_wrap_in_span]">Wrap prefix in a span tag instead of hiding it</label>
+<?php
 }
 
 function nix_prefix_archive_pages_render() {
 	$options = get_option( 'nix_prefix_settings' );
-	$tags = get_tags();
+	$archive_page_types = array( 'category', 'tag', 'author', 'date', 'CPT', 'taxonomy' );
 	?>
-	<select name='nix_prefix_settings[nix_prefix_archive_pages]'>
-		<option value='0' <?php selected( $options['nix_prefix_archive_pages'], 0 ); ?>>None selected</option>
-		<?php foreach ( $tags as $tag ) : ?>
-			<option value="<?php echo esc_attr( $tag->term_id ); ?>" <?php selected( $options['nix_prefix_home_tag'], $tag->term_id ); ?>><?php echo esc_html( $tag->name ); ?></option>
-		<?php endforeach; ?>
-	</select>
+	<?php foreach ( $archive_page_types as $type ) : ?>
+		<input type='checkbox' name='nix_prefix_settings[nix_prefix_archive_<?php echo $type; ?>]' <?php checked( $options['nix_prefix_archive_' .  $type ], 1 ); ?> value='1'>
+	<?php endforeach; ?>
 <?php
 }

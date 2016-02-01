@@ -12,9 +12,10 @@
 
 function nix_prefix_filter_archive_title( $title ) {
 	$options = get_option( 'nix_prefix_settings' );
+	print_r( $options );
 
 	if ( is_archive() ) :
-		if ( '1' === $options['nix_prefix_wrap_in_span'] ) :
+		if ( array_key_exists( 'nix_prefix_wrap_in_span', $options ) ) :
 			// Remove the colon and space, wrap text in a span
 			$pattern = '/([a-z]*):\s?/mi';
 			$replacement = '<span class="nix-prefix">${1}</span>';
