@@ -10,14 +10,31 @@
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-function nix_prefix( $title ) {
+function nix_prefix_filter_archive_title( $title ) {
+	$options = get_option( 'nix_prefix_settings' );
+
 	if ( is_archive() ) :
-		$pattern = '/([a-z]*:\s?)/mi';
-		$replacement = '';
+		if ( '1' === $options['nix_prefix_wrap_in_span'] ) :
+			// Remove the colon and space, wrap text in a span
+			$pattern = '/([a-z]*):\s?/mi';
+			$replacement = '<span class="nix-prefix">${1}</span>';
+
+		else :
+			// Remove everything
+			$pattern = '/([a-z]*:\s?)/mi';
+			$replacement = '';
+		endif;
+
+		// Do our replacements
 		$title = preg_replace( $pattern, $replacement, $title );
-	endif;
+	endif; // is_archive()
 
 	return $title;
 }
 
-add_filter( 'get_the_archive_title', 'nix_prefix' );
+add_filter( 'get_the_archive_title', 'nix_prefix_filter_archive_title' );
+
+/*
+ * Register a settings page for the plugin.
+ */
+require plugin_dir_path( __FILE__ ) . 'settings.php';
