@@ -52,15 +52,15 @@ function nix_prefix_settings_init() {
 
 	register_setting( 'nix_prefix_settings', 'nix_prefix_settings' );
 
-		// Register a section, mostly because it doesn't seem possible not to
-		add_settings_section(
+	// Register a section, mostly because it doesn't seem possible not to
+	add_settings_section(
 		'nix_prefix_general_settings_section',
 		esc_html__( 'General Settings', 'nix_prefix' ),
 		'',
 		'nix_prefix_settings'
 	);
 
-		// Register various options
+	// Register various options
 	add_settings_field(
 		'nix_prefix_wrap_in_span',
 		esc_html__( 'Prefix behaviour', 'nix_prefix' ),
@@ -69,12 +69,24 @@ function nix_prefix_settings_init() {
 		'nix_prefix_general_settings_section'
 	);
 
+	// Archive page settings
+	add_settings_section(
+		'nix_prefix_archive_settings_section',
+		esc_html__( 'Archive Page Settings', 'nix_prefix' ),
+		'',
+		'nix_prefix_settings'
+	);
+
 	add_settings_field(
 		'nix_prefix_archive_category',
 		esc_html__( 'Category archives', 'nix_prefix' ),
 		'nix_prefix_archive_pages_render',
 		'nix_prefix_settings',
-		'nix_prefix_general_settings_section'
+		'nix_prefix_archive_settings_section',
+		array(
+			'type'  => 'category',
+			'title' => esc_html__( 'category archives', 'nix_prefix' )
+		)
 	);
 
 	add_settings_field(
@@ -82,7 +94,59 @@ function nix_prefix_settings_init() {
 		esc_html__( 'Tag archives', 'nix_prefix' ),
 		'nix_prefix_archive_pages_render',
 		'nix_prefix_settings',
-		'nix_prefix_general_settings_section'
+		'nix_prefix_archive_settings_section',
+		array(
+			'type'  => 'tag',
+			'title' => esc_html__( 'tag archives', 'nix_prefix' )
+		)
+	);
+
+	add_settings_field(
+		'nix_prefix_archive_author',
+		esc_html__( 'Author archives', 'nix_prefix' ),
+		'nix_prefix_archive_pages_render',
+		'nix_prefix_settings',
+		'nix_prefix_archive_settings_section',
+		array(
+			'type'  => 'author',
+			'title' => esc_html__( 'author archives', 'nix_prefix' )
+		)
+	);
+
+	add_settings_field(
+		'nix_prefix_archive_date',
+		esc_html__( 'Date archives', 'nix_prefix' ),
+		'nix_prefix_archive_pages_render',
+		'nix_prefix_settings',
+		'nix_prefix_archive_settings_section',
+		array(
+			'type'  => 'date',
+			'title' => esc_html__( 'date archives', 'nix_prefix' )
+		)
+	);
+
+	add_settings_field(
+		'nix_prefix_archive_CPT',
+		esc_html__( 'Custom post type archives', 'nix_prefix' ),
+		'nix_prefix_archive_pages_render',
+		'nix_prefix_settings',
+		'nix_prefix_archive_settings_section',
+		array(
+			'type'  => 'CPT',
+			'title' => esc_html__( 'custom post type archives', 'nix_prefix' )
+		)
+	);
+
+	add_settings_field(
+		'nix_prefix_archive_taxonomy',
+		esc_html__( 'Custom taxonomy archives', 'nix_prefix' ),
+		'nix_prefix_archive_pages_render',
+		'nix_prefix_settings',
+		'nix_prefix_archive_settings_section',
+		array(
+			'type'  => 'taxonomy',
+			'title' => esc_html__( 'custom taxonomy archives', 'nix_prefix' )
+		)
 	);
 }
 add_action( 'admin_init', 'nix_prefix_settings_init' );
@@ -92,21 +156,23 @@ add_action( 'admin_init', 'nix_prefix_settings_init' );
  */
 function nix_prefix_wrap_in_span() {
 	$options = get_option( 'nix_prefix_settings' );
-		if ( ! isset( $options['nix_prefix_wrap_in_span'] ) ) :
-			$options['nix_prefix_wrap_in_span'] = 0;
-		endif;
+	if ( ! isset( $options['nix_prefix_wrap_in_span'] ) ) :
+		$options['nix_prefix_wrap_in_span'] = 0;
+	endif;
 	?>
 	<input type='checkbox' name='nix_prefix_settings[nix_prefix_wrap_in_span]' <?php checked( $options['nix_prefix_wrap_in_span'], 1 ); ?> value='1'>
 	<label for="nix_prefix_settings[nix_prefix_wrap_in_span]">Wrap prefix in a span tag instead of hiding it</label>
 <?php
 }
 
-function nix_prefix_archive_pages_render() {
+function nix_prefix_archive_pages_render( $args ) {
 	$options = get_option( 'nix_prefix_settings' );
-	$archive_page_types = array( 'category', 'tag', 'author', 'date', 'CPT', 'taxonomy' );
+		$type = $args['type'];
+	if ( ! isset( $options['nix_prefix_archive_' .  $type ] ) ) :
+		$options['nix_prefix_archive_' .  $type ] = 0;
+	endif;
 	?>
-	<?php foreach ( $archive_page_types as $type ) : ?>
-		<input type='checkbox' name='nix_prefix_settings[nix_prefix_archive_<?php echo $type; ?>]' <?php checked( $options['nix_prefix_archive_' .  $type ], 1 ); ?> value='1'>
-	<?php endforeach; ?>
+	<input type='checkbox' name='nix_prefix_settings[nix_prefix_archive_<?php echo $type; ?>]' <?php checked( $options['nix_prefix_archive_' .  $type ], 1 ); ?> value='1'>
+	<label for="nix_prefix_settings[nix_prefix_archive_<?php echo $type; ?>]">Disable for <?php echo $args['title']; ?></label>
 <?php
 }
