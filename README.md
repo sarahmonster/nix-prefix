@@ -8,11 +8,11 @@ to
 
 > Puppies and Kittens
 
-on your archives pages and more—all without a child theme!
+on your archive pages—no child themes required!
 
 ## Requirements
 
-WordPress 4.1. Nix Prefix filters on the standard `the_archive_title` function, which was added to core in 4.1 (released December 2014).
+WordPress 4.1 or higher.
 
 ## Usage
 
