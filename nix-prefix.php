@@ -11,20 +11,12 @@
  */
 
 function nix_prefix_filter_archive_title( $title ) {
-	$options = get_option( 'nix_prefix_settings' );
-	print_r( $options );
-
 	if ( is_archive() ) :
-		if ( array_key_exists( 'nix_prefix_wrap_in_span', $options ) ) :
-			// Remove the colon and space, wrap text in a span
-			$pattern = '/([a-z]*):\s?/mi';
-			$replacement = '<span class="nix-prefix">${1}</span>';
+		// Match any character class followed by a colon
+		$pattern = '/([a-z]*):\s?/mi';
 
-		else :
-			// Remove everything
-			$pattern = '/([a-z]*:\s?)/mi';
-			$replacement = '';
-		endif;
+		// Return prefix text (minus the colon and space) wrapped in a span
+		$replacement = '<span class="nix-prefix">${1}</span>';
 
 		// Do our replacements
 		$title = preg_replace( $pattern, $replacement, $title );
@@ -35,7 +27,10 @@ function nix_prefix_filter_archive_title( $title ) {
 
 add_filter( 'get_the_archive_title', 'nix_prefix_filter_archive_title' );
 
-/*
- * Register a settings page for the plugin.
+/**
+ * Enqueue a super-simple stylesheet.
  */
-require plugin_dir_path( __FILE__ ) . 'settings.php';
+function nix_prefix_scripts() {
+	wp_enqueue_style( 'nix-prefix-style', plugin_dir_url( __FILE__ ) . 'style.css', array(), '20160201' );
+}
+add_action( 'wp_enqueue_scripts', 'nix_prefix_scripts' );
