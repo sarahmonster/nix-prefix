@@ -1,6 +1,6 @@
-=== Plugin Name ===
+=== Nix Prefix ===
 Contributors: tinkerbelly
-Donate link: http://example.com/
+Plugin URI: http://sarahmonster.github.io/nix-prefix/
 Tags: category, tag, text, archive, archives, page
 Requires at least: 4.1
 Tested up to: 4.4

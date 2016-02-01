@@ -1,13 +1,22 @@
 <?php
-/**
+ /**
+ * Nix Prefix
+ *
+ * @package     Nix Prefix
+ * @author      sarah semark
+ * @copyright   2016 sarah semark
+ * @license     GPL-2.0+
+ *
+ * @wordpress-plugin
  * Plugin Name: Nix Prefix
- * Plugin URI:
- * Description: A super-simple plugin to remove the "Category:" prefix text on archive page titles.
- * Version: 0.1.0
- * Author: sarah semark
- * Author URI: http://triggersandsparks.com
- * License: GPLv2 or later
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * Plugin URI:  http://sarahmonster.github.io/nix-prefix/
+ * Description: A super-simple plugin to remove or customise the "Category:" prefix text on archive page titles.
+ * Version:     0.1.0
+ * Author:      sarah semark
+ * Author URI:  https://triggersandsparks.com
+ * Text Domain: nix_prefix
+ * License:     GPL-2.0+
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 function nix_prefix_filter_archive_title( $title ) {
