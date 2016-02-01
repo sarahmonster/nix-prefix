@@ -1,12 +1,28 @@
 # Nix Prefix
 
+Nix Prefix is a super-simple WordPress plugin to remove or customise the prefix text on your archive pages. Go from:
+
+> Category: Puppies and Kittens
+
+to
+
+> Puppies and Kittens
+
+on your archives pages and more—all without a child theme!
+
+## Requirements
+
+WordPress 4.1. Nix Prefix filters on the standard `the_archive_title` function, which was added to core in 4.1 (released December 2014).
+
+## Usage
+
 Most WordPress archive pages have a title that looks something like this:
 
-Category: Puppies and Kittens
+> Category: Puppies and Kittens
 
-Ever wanted to get rid of that "Category" bit? Maybe change it to something else? Remove the colon? Change the styling a little bit? Now you can—no child theme required!
+Ever wanted to get rid of that "Category" bit? Maybe change it to something else? Remove the colon? Change the styling a little bit? Nix Prefix allows you to do all of that—no child theme required!
 
-Nix Prefix is a super-simple WordPress plugin to remove or customise the prefix text on your archive pages. This works for all archive page types: 
+This works for all archive page types:
 
 * category archives
 * tag archives
