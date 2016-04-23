@@ -22,6 +22,13 @@ to
 
 on your archive pages—no child themes required!
 
+For a better visual of what this does, have a look at the screenshots tab.
+
+= Need help? =
+* Full documentation: http://sarahmonster.github.io/nix-prefix/
+* Github repo: https://github.com/sarahmonster/nix-prefix
+* Ask me on Twitter: https://twitter.com/sarahsemark
+
 == Installation ==
 
 1. Upload the plugin files to the `/wp-content/plugins/plugin-name` directory, or install the plugin through the WordPress plugins screen directly.
@@ -42,11 +49,10 @@ The best way to customise your output is by using CSS. The [CSS snippets section
 
 To dequeue the plugin's custom CSS, copy the following line into your theme's `functions.php`
 
-```php
-function nix_prefix_dequeue_plugin_styles()  {
-	wp_dequeue_style( 'nix-prefix-style' );
-}
-add_action( 'wp_print_styles', 'nix_prefix_dequeue_plugin_styles', 100 );
+    function nix_prefix_dequeue_plugin_styles()  {
+        wp_dequeue_style( 'nix-prefix-style' );
+    }
+    add_action( 'wp_print_styles', 'nix_prefix_dequeue_plugin_styles', 100 );
 
 = What archive page types does this work with? =
 
@@ -62,6 +68,10 @@ This works for all archive page types:
 You can customise the display for different archive types by using targeted [CSS classes](https://github.com/sarahmonster/nix-prefix/blob/master/README.md#css-code-snippets).
 
 == Screenshots ==
+
+1. Twentysixteen without Nix Prefix.
+2. Twentysixteen with Nix Prefix.
+3. Twentysixteen with Nix Prefix and [custom CSS](https://github.com/sarahmonster/nix-prefix/blob/master/README.md#css-code-snippets).
 
 == Changelog ==
 
